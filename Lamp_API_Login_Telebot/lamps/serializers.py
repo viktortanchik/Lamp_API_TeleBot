@@ -62,7 +62,7 @@ class LampslistSerializer(ModelSerializer):
 
     class Meta:
         model = Lamps
-        fields = '__all__'#('id', 'status', 'mode', 'Scripts') #album_musician
+        fields = ('id', 'status', 'mode', 'Scripts') #album_musician
 
 class LampsDetailSerializer(serializers.ModelSerializer):
     #status = ProgramLamps1DetailSerializer(many=True)
