@@ -2,8 +2,13 @@ from django.shortcuts import render
 from rest_framework import generics
 from .serializers import *
 from .models import*
-# Create your views here.
-################################################################################################################
+from rest_framework.views import APIView
+
+
+
+
+
+########################################################## Основной View ######################################################
 class LampsCreateView(generics.CreateAPIView):
     serializer_class = LampsDetailSerializer
     queryset = Lamps.objects.all()
@@ -13,9 +18,26 @@ class LampsListView(generics.ListAPIView):
     serializer_class = LampslistSerializer
     queryset = Lamps.objects.all()
 
-class LampsDtailView(generics.RetrieveUpdateDestroyAPIView):
+class LampsDtailView(generics.RetrieveUpdateAPIView): # generics.RetrieveUpdateDestroyAPIView
     serializer_class = LampslistSerializer
     queryset = Lamps.objects.all()
+
+ ################################################ Температура и влажность воздуха View ################################################################
+
+class Humidity_TemperatureCreateView(generics.CreateAPIView):
+    serializer_class = Humidity_TemperatureDetailSerializer
+    # serializer_class = ProgramLamps1listSerializer
+
+
+class Humidity_TemperatureListView(generics.ListAPIView):
+    serializer_class = Humidity_TemperaturelistSerializer
+    queryset = Humidity_Temperature.objects.all()
+
+
+class Humidity_TemperatureDtailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = Humidity_TemperaturelistSerializer
+    queryset = Humidity_Temperature.objects.all()
+
 ################################################################################################################
 class pixCreateView(generics.CreateAPIView):
     serializer_class = ProgramLamps1DetailSerializer
@@ -73,8 +95,7 @@ class Script_3ListView(generics.ListAPIView):
     queryset = Script_3.objects.all()
 
 class Script_3DtailView(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = Script_1_listserializer
+    serializer_class = Script_3_listserializer
     queryset = Script_3.objects.all()
-################################################################################################################
 
 

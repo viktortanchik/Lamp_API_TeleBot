@@ -7,14 +7,21 @@ from datetime import datetime
 import _csv
 #from .models import Subscriber
 
-bot = telebot.TeleBot("959589789:AAHrmywTywnK3C-vVLUFFsC67FlLCk2ddaE")
+#bot = telebot.TeleBot("959589789:AAHrmywTywnK3C-vVLUFFsC67FlLCk2ddaE")
 
-#bot = telebot.TeleBot("1342473956:AAF-9R_QfDYwgev8fssd2c58RLT7Oc28L4c")
+bot = telebot.TeleBot("1342473956:AAF-9R_QfDYwgev8fssd2c58RLT7Oc28L4c")
 nameID =[]
 snID = []
+
+#url_1 = 'http://ce05390-django.tw1.ru/api/v1/lamps/lamps/detail/'# маленькая
+
+
+url_1 = 'http://192.168.1.3:8000/api/v1/lamps/lamps/detail/'# маленькая
+
+
 #url = 'http://192.168.0.135:8000/api/v1/lamps/lamps/detail/1/'
 #url_1 = 'http://192.168.1.6:8000/api/v1/lamps/lamps/detail/'
-url_1 = 'http://ce05390-django.tw1.ru/api/v1/lamps/lamps/detail/'# маленькая
+#url_1 = 'http://ce05390-django.tw1.ru/api/v1/lamps/lamps/detail/'# маленькая
 #url_2 = 'http://ce05390-django.tw1.ru/api/v1/lamps/lamps/detail/2/'# Большая лампа
 #url_3 = 'http://ce05390-django.tw1.ru/api/v1/lamps/lamps/detail/3/'# Без батареии
 #url_4 = 'http://ce05390-django.tw1.ru/api/v1/lamps/lamps/detail/4/'# Лампа у Юли
@@ -51,7 +58,7 @@ def welcome(message):
 #viktortanchik
 #@Yuliya_Kopylec
 #print(Subscriber.objects.get(id=1))
-
+# 🌡
 @bot.message_handler(content_types=['text'])
 def lalala(message):
 
@@ -70,27 +77,15 @@ def lalala(message):
             print(nameID.index(message.from_user.username))
             nameIndex = nameID.index(user)
     if user == nameID[nameIndex]:
-        url = 'http://ce05390-django.tw1.ru/api/v1/lamps/lamps/detail/'+str(snID[nameIndex]) + '/'
+       #url = 'http://ce05390-django.tw1.ru/api/v1/lamps/lamps/detail/'+str(snID[nameIndex]) + '/'  # Для сервера
+        url = 'http://192.168.1.3:8000/api/v1/lamps/lamps/detail/' + str(snID[nameIndex]) + '/'
         #url + str(snID[nameIndex]) + '/'
         response = requests.get(url)
         print(response.json())
         J = response.json()
         print(J["mode"])
+        Mode_1 = J.copy()
 
-        Mode_1 = {
-            "id": 10,
-            "status": 10,
-            "mode": 10,
-            "red": 100,
-            "green": 100,
-            "blue": 100,
-        }
-        Mode_1['id'] = J["id"]
-        Mode_1['status'] = J["status"]
-        Mode_1['mode'] = J["mode"]
-        Mode_1['red'] = J["red"]
-        Mode_1['green'] = J["green"]
-        Mode_1['blue'] = J["blue"]
         print(message.from_user.id)
         print(message.from_user.first_name)
         print(message.from_user.last_name)
@@ -99,7 +94,7 @@ def lalala(message):
         file.write(user + '\n')
         print(message.text)
         if message.text == 'Старт' or message.text == 'Главное меню':
-            markup.row("Режимы", "Ручной режим" )
+            markup.row("Режимы", "Ручной режим", "Температура и влажность воздуха 🌡" )
             markup.row("Выключить", "Увлажнитель вкл/выкл")
         if message.text == "Ручной режим":
             markup.row("❤+", "💚+", "💙+")
@@ -111,6 +106,11 @@ def lalala(message):
             markup.row("💡 Режим 4", "💡 Режим 5")
             markup.row("💡 Выключить")
             markup.row("Главное меню")
+        if message.text == "Температура и влажность воздуха 🌡":
+            bot.send_message(message.chat.id, 'Температура ' + str(Mode_1['H_T'][0]["Temperature"]), reply_markup=markup)
+            bot.send_message(message.chat.id, 'Влажность ' + str(Mode_1['H_T'][0]["Humidity"]),
+                             reply_markup=markup)
+
 
         if message.text == "Увлажнитель вкл/выкл":
             print('Изменения значения для увлажнителя')
@@ -118,10 +118,12 @@ def lalala(message):
             if Mode_1['status'] == "1":
                 Mode_1['status'] = 0
                 print("Установка = 0")
+                response = requests.put(url_1 + str(snID[nameIndex]) + '/', json=Mode_1)
             if Mode_1['status'] == "0":
                 Mode_1['status'] = 1
                 print("Установка = 1")
-            response = requests.put(url_1 + str(snID[nameIndex]) + '/', json=Mode_1)
+                response = requests.put(url_1 + str(snID[nameIndex]) + '/', json=Mode_1)
+
 
 
         if message.text == '💡 Выключить' or message.text == 'Выключить':
