@@ -18,15 +18,6 @@ snID = []
 
 url_1 = 'http://192.168.1.3:8000/api/v1/lamps/lamps/detail/'# маленькая
 
-
-#url = 'http://192.168.0.135:8000/api/v1/lamps/lamps/detail/1/'
-#url_1 = 'http://192.168.1.6:8000/api/v1/lamps/lamps/detail/'
-#url_1 = 'http://ce05390-django.tw1.ru/api/v1/lamps/lamps/detail/'# маленькая
-#url_2 = 'http://ce05390-django.tw1.ru/api/v1/lamps/lamps/detail/2/'# Большая лампа
-#url_3 = 'http://ce05390-django.tw1.ru/api/v1/lamps/lamps/detail/3/'# Без батареии
-#url_4 = 'http://ce05390-django.tw1.ru/api/v1/lamps/lamps/detail/4/'# Лампа у Юли
-
-
 #url_1 = 'http://ce05390-django.tw1.ru/api/v1/lamps/lamps/detail/1/'# маленькая
 #url_2 = 'http://ce05390-django.tw1.ru/api/v1/lamps/lamps/detail/2/'# Большая лампа
 #url_3 = 'http://ce05390-django.tw1.ru/api/v1/lamps/lamps/detail/3/'# Без батареии
